@@ -1,8 +1,13 @@
 print("hello world")
 
 import feedparser
+import ssl
+if hasattr(ssl, '_create_unverified_context'):
+        ssl._create_default_https_context = ssl._create_unverified_context
+        #feed = feedparser.parse(rss) #<<WORKS!!
+        d = feedparser.parse('https://medium.mybridge.co/feed')
 
-d = feedparser.parse('http://feeds.feedburner.com/AyendeRahien')
+#d = feedparser.parse('https://medium.mybridge.co/feed')
 #d = feedparser.parse('http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml')
 
 #http://www.enterpriseintegrationpatterns.com/ramblings.rss
