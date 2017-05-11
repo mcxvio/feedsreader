@@ -6,21 +6,20 @@ import urllib.request
 import feedparser
 
 #http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
-context = ssl._create_unverified_context()
+ssl._create_default_https_context = ssl._create_unverified_context
 
-with urllib.request.urlopen(url, context=context) as response:
+with urllib.request.urlopen(url) as response:
     html = response.read()
 
 for line in html.splitlines():
     url = line.decode("utf-8")
-    print(url)
-
     #Get RSS for each URL.
     d = feedparser.parse(url)
     #Extract latest story.
+    print(url)
     print(d.entries[0].title)
 
-#Send to Jinja temlate for reading.
 
+#Send to Jinja temlate for reading.
 
 ###Create markup that can then be turned to html by pelican?
