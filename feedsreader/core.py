@@ -8,6 +8,6 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 template = env.get_template('index.html')
-print(template.render(the='variables', go='here'))
+print(template.render(title='hello world'))
 
 ###Create markup that can then be turned to html by pelican?
