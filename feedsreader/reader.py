@@ -16,7 +16,7 @@ def executeFeedReadWrite():
     with urllib.request.urlopen(url) as response:
         html = response.read()
 
-    with open('output/blogroll.md', 'w') as output:
+    with open('../../pelican/content/pages/blogroll.md', 'w') as output:
         #output.write("hello markdown file")
         output.write("Title: Blogroll")
         output.write("\n")
@@ -32,16 +32,17 @@ def executeFeedReadWrite():
             url = line.decode("utf-8")
             #Get RSS for each URL.
             d = feedparser.parse(url)
+            output.write("### ")
             if d.feed.title == "":
                 output.write("[" + d.feed.description + "]")
             else:
                 output.write("[" + d.feed.title + "]")
             output.write("(" + d.feed.link + ")")
             output.write("\n")
-            output.write("\n")
             #Extract latest story.
             #output.write("\n")
             #output.write(url)
+            output.write("* ")
             output.write("[" + d.entries[0].title + "]")
             output.write("(" + d.entries[0].link + ")")
             output.write("\n")
