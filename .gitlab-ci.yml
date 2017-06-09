@@ -1,3 +1,8 @@
+before_script:
+  - apt install python3
+  - apt install python3-pip
+  - pip3 install -q -r requirements.txt
+
 blogroll:
     script:
     - python3 feedsreader/core.py
