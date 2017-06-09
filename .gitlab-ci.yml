@@ -10,4 +10,4 @@ blogroll:
     - python3 feedsreader/core.py
     artifacts:
         paths:
-        - output/
+        - feedsreader/output/
