@@ -1,6 +1,7 @@
 image: python:3.6-alpine
 
 before_clone:
+  script:
   - apt-get -y update
   - apt-get -y install git
 
