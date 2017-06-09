@@ -11,3 +11,8 @@ blogroll:
     artifacts:
         paths:
         - feedsreader/output/
+
+git:
+    script:
+    - git clone git@gitlab.com:mcxvio/blog.git
+    - git status
