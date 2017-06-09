@@ -4,7 +4,6 @@ before_script:
   - python3 -V
   - pip3 -V
   - pip3 install feedparser
-  - pip3 install urllib
 
 blogroll:
     script:
