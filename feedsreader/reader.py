@@ -4,7 +4,6 @@ import ssl
 import urllib.request
 import feedparser
 
-<<<<<<< HEAD
 def executeFeedReadWrite():
     print("Working...")
 
@@ -17,7 +16,7 @@ def executeFeedReadWrite():
     with urllib.request.urlopen(url) as response:
         html = response.read()
 
-    with open('../../pelican/content/pages/blogroll.md', 'w') as output:
+    with open('output/blogroll.md', 'w') as output:
         #output.write("hello markdown file")
         output.write("Title: Blogroll")
         output.write("\n")
@@ -53,39 +52,5 @@ def executeFeedReadWrite():
         output.close
 
     print(output.closed)
-=======
-print("Working...")
-
-#http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
-ssl._create_default_https_context = ssl._create_unverified_context
-
-with urllib.request.urlopen(url) as response:
-    html = response.read()
-
-with open('output/blogroll.md', 'w') as output:
-    #output.write("hello markdown file")
-    output.write("Title: Blogroll")
-    output.write("\n")
-
-    for line in html.splitlines():
-        url = line.decode("utf-8")
-        #Get RSS for each URL.
-        d = feedparser.parse(url)
-
-        #Extract latest story.
-        #output.write("\n")
-        #output.write(url)
-        output.write("[" + d.entries[0].title + "]")
-        output.write("(" + d.entries[0].link + ")")
-        output.write("\n")
-        output.write("\n")
-        output.write("-------")
-        output.write(d.entries[0].description[0:100])
-        output.write("-------")
-        output.write("\n")
-        output.write("\n")
-
-    output.close
->>>>>>> d9e91e05514ebf7eef457e10250fcf50c5244762
 
 #def addToBlogRepo():
