@@ -7,16 +7,16 @@ Slug: blogroll
 * [The Architect Elevator — Visiting the upper floors](https://martinfowler.com/articles/architect-elevator.html)
 
 ### [Ayende @ Rahien](https://ayende.com/blog/)
-* [RavenDB 4.0 Licensing & Pricing](http://feedproxy.google.com/~r/AyendeRahien/~3/ydx5QqTAP64/ravendb-4-0-licensing-pricing)
+* [RavenDB 4.0: Data subscriptions, Part I](http://feedproxy.google.com/~r/AyendeRahien/~3/yM44ABX504k/ravendb-4-0-data-subscriptions-part-i)
 
 ### [Enterprise Integration Patterns: Gregor's Ramblings](http://www.enterpriseintegrationpatterns.com)
 * [Serverless Integration Patterns on Google Cloud Functions](http://www.enterpriseintegrationpatterns.com/ramblings/google_cloud_functions.html)
 
 ### [Scott Hanselman's Blog](https://www.hanselman.com/blog/)
-* [RetroPie and X-Arcade Tankstick - The perfect Retro Arcade (plus keybindings and config and how-to)](http://feeds.hanselman.com/~/351710030/0/scotthanselman~RetroPie-and-XArcade-Tankstick-The-perfect-Retro-Arcade-plus-keybindings-and-config-and-howto.aspx)
+* [Trying .NET Core on Linux with just a tarball (without apt-get)](http://feeds.hanselman.com/~/353603666/0/scotthanselman~Trying-NET-Core-on-Linux-with-just-a-tarball-without-aptget.aspx)
 
 ### [CodeProject Latest Articles](https://www.codeproject.com)
-* [File locking in a multi threaded environment](https://www.codeproject.com/Tips/1190802/File-locking-in-a-multi-threaded-environment)
+* [Porting a .NET Framework library to .NET Core](https://www.codeproject.com/Articles/1190475/Porting-a-NET-Framework-library-to-NET-Core)
 
 ### [Mybridge for Professionals - Medium](https://medium.mybridge.co?source=rss----ab27849fe0f4---4)
 * [Machine Learning Top 10 Articles for the Past Month (v.May 2017)](https://medium.mybridge.co/machine-learning-top-10-articles-for-the-past-month-v-may-2017-f66b865b3e99?source=rss----ab27849fe0f4---4)
