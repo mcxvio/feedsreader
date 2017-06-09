@@ -16,7 +16,7 @@ def executeFeedReadWrite():
     with urllib.request.urlopen(url) as response:
         html = response.read()
 
-    with open('output/blogroll.md', 'w') as output:
+    with open('feedsreader/output/blogroll.md', 'w') as output:
         #output.write("hello markdown file")
         output.write("Title: Blogroll")
         output.write("\n")
