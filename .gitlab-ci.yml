@@ -2,8 +2,6 @@ image: python:3.6-alpine
 
 before_script:
   - python3 -V
-
-install:
   - pip3 install -q -r requirements.txt
 
 blogroll:
