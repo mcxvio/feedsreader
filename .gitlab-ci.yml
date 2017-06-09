@@ -13,6 +13,7 @@ blogroll:
         - feedsreader/output/
 
 after_script:
-  - apt-get install -y git
+  - yum install git
+  - git version
   - git clone git@gitlab.com:mcxvio/blog.git
   - git status
