@@ -52,5 +52,6 @@ def executeFeedReadWrite():
         output.close
 
     print(output.closed)
+    print("...Done")
 
 #def addToBlogRepo():

@@ -1,15 +1,11 @@
 image: python:3.6-alpine
 
-before_script:
-  - python3 -V
-  - pip3 -V
-  - pip3 install -r requirements.txt
-  - sudo apt-get install git
-  - git --version
-
 blogroll:
     script:
-    - python3 feedsreader/core.py
+      - python3 -V
+      - pip3 -V
+      - pip3 install -r requirements.txt
+      - python3 feedsreader/core.py
     artifacts:
         paths:
-        - feedsreader/output/
+        - public/
