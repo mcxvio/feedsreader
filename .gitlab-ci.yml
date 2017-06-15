@@ -11,12 +11,16 @@ pages:
   - master
 
 #image: python:3.6-alpine
-#blogroll:
+#
+#pages:
+#    stage: deploy
 #    script:
 #      - python3 -V
 #      - pip3 -V
 #      - pip3 install -r requirements.txt
-#      - python3 feedsreader/core.py
+#      - python3 reader.py
 #    artifacts:
 #        paths:
-#        - public/
+#        - public
+#    only:
+#    - master
