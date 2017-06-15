@@ -1,11 +1,24 @@
-image: python:3.6-alpine
+# This file is a template, and might need editing before it works on your project.
+# Full project: https://gitlab.com/pages/plain-html
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r * .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
 
-blogroll:
-    script:
-      - python3 -V
-      - pip3 -V
-      - pip3 install -r requirements.txt
-      - python3 feedsreader/core.py
-    artifacts:
-        paths:
-        - public/
+#image: python:3.6-alpine
+#blogroll:
+#    script:
+#      - python3 -V
+#      - pip3 -V
+#      - pip3 install -r requirements.txt
+#      - python3 feedsreader/core.py
+#    artifacts:
+#        paths:
+#        - public/
