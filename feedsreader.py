@@ -7,7 +7,7 @@ import feedparser
 
 def executeFeedReadWrite():
     #Extract URLs from public dropbox file.
-    url = "https://gitlab.com/mcxvio/feeds/blob/master/public/urls.txt"  # dl=1 is important
+    url = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
 
     #http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -58,9 +58,7 @@ def feedTitle(d):
     if "title" in d.feed.keys():
         return d.feed.title
     else:
-        if "description" in d.feed.keys():
-            return d.feed.description
-        return "no title"
+        return d.feed.description
 
 def feedEntryPublishedDate(d):
     entryDate = ""
