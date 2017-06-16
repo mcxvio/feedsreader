@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import ssl
 import urllib.request
 import feedparser
 
 def executeFeedReadWrite():
-    print("Working...")
-
     #Extract URLs from public dropbox file.
     url = "http://www.dropbox.com/s/yuo52behpqchn39/TechFeedURLs.txt?dl=1"  # dl=1 is important
 
@@ -16,42 +15,76 @@ def executeFeedReadWrite():
     with urllib.request.urlopen(url) as response:
         html = response.read()
 
+    #List of feed items.
+    feedsList = []
+
+    for line in html.splitlines():
+        url = line.decode("utf-8")
+        d = feedparser.parse(url)
+
+        feedsList.append({ "title": feedTitle(d),
+                 "title_link": d.feed.link,
+                 "entry_title": d.entries[0].title.encode('utf-8'),
+                 "entry_link": d.entries[0].link,
+                 "entry_date": feedEntryPublishedDate(d) })
+
+    #Show feed's newest entry first (https://stackoverflow.com/questions/5055812/sort-python-list-of-objects-by-date).
+    feedsByDate = sorted(feedsList, key=lambda k: k['entry_date'], reverse=True)
+
     with open('public/blogroll.md', 'w') as output:
-        #output.write("hello markdown file")
-        output.write("Title: Blogroll")
-        output.write("\n")
-        output.write("Category: People, Process, Products")
-        output.write("\n")
-        output.write("Tags: process, products, people, blogroll")
-        output.write("\n")
-        output.write("Slug: blogroll")
-        output.write("\n")
+        outputDocumentHeader(output)
         output.write("\n")
 
-        for line in html.splitlines():
-            url = line.decode("utf-8")
-            #Get RSS for each URL.
-            d = feedparser.parse(url)
+        for item in feedsByDate:
             output.write("### ")
-            if d.feed.title == "":
-                output.write("[" + d.feed.description + "]")
-            else:
-                output.write("[" + d.feed.title + "]")
-            output.write("(" + d.feed.link + ")")
+            output.write("[" + item['title'] + "]")
+            output.write("(" + item['title_link'] + ")")
             output.write("\n")
-            #Extract latest story.
-            #output.write("\n")
-            #output.write(url)
-            output.write("* ")
-            output.write("[" + d.entries[0].title + "]")
-            output.write("(" + d.entries[0].link + ")")
+            output.write("* #### ")
+            output.write("[" + item['entry_title'].decode('utf-8') + "]")
+            output.write("(" + item['entry_link'] + ")")
             output.write("\n")
-            #output.write(d.entries[0].description[0:100])
-            #output.write("\n")
-            output.write("\n")
+            if item['entry_date'] != "":
+                output.write("<p class='footer'>" + item['entry_date'] + "</p>")
+                output.write("\n")
+                output.write("\n")
+
+        output.write("\n")
+        output.write("\n")
+        output.write('<p class="footer"><br><br>Page updated: {:%Y-%m-%d %H:%M:%S}</p>'.format(datetime.datetime.now()))
         output.close
 
-    print(output.closed)
-    print("...Done")
+def feedTitle(d):
+    if "title" in d.feed.keys():
+        return d.feed.title
+    else:
+        return d.feed.description
 
-#def addToBlogRepo():
+def feedEntryPublishedDate(d):
+    entryDate = ""
+    if "published" in d.entries[0].keys():
+        entryDate = d.entries[0].published_parsed
+    else:
+        if "updated" in d.entries[0].keys():
+            entryDate = d.entries[0].updated_parsed
+
+    if entryDate != "":
+        dt = datetime.datetime(*(entryDate[0:6]))
+        return dt.strftime('%Y-%m-%d %H:%M:%S')
+    else:
+        return entryDate
+
+def outputDocumentHeader(output):
+    output.write("Title: Blogroll")
+    output.write("\n")
+    output.write("Category: People, Process, Products")
+    output.write("\n")
+    output.write("Tags: process, products, people, blogroll")
+    output.write("\n")
+    output.write("Slug: blogroll")
+    output.write("\n")
+
+if __name__ == '__main__':
+    print("Working...")
+    executeFeedReadWrite()
+    print("...Done")
