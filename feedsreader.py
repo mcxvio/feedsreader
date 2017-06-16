@@ -58,7 +58,9 @@ def feedTitle(d):
     if "title" in d.feed.keys():
         return d.feed.title
     else:
-        return d.feed.description
+        if "description" in d.feed.keys():
+            return d.feed.description
+        return "no title"
 
 def feedEntryPublishedDate(d):
     entryDate = ""
