@@ -1,26 +1,26 @@
-image: alpine:latest
-
-pages:
-  stage: deploy
-  script:
-  - echo 'Nothing to do...'
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
-
-#image: python:3.6-alpine
+#image: alpine:latest
 #
 #pages:
-#    stage: deploy
-#    script:
-#      - python3 -V
-#      - pip3 -V
-#      - pip3 install -r requirements.txt
-#      - python3 reader.py
-#    artifacts:
-#        paths:
-#        - public
-#    only:
-#    - master
+#  stage: deploy
+#  script:
+#  - echo 'Nothing to do...'
+#  artifacts:
+#    paths:
+#    - public
+#  only:
+#  - master
+#
+image: python:3.6-alpine
+
+pages:
+    stage: deploy
+    script:
+      - python3 -V
+      - pip3 -V
+      - pip3 install -r requirements.txt
+      - python3 reader.py
+    artifacts:
+        paths:
+        - public
+    only:
+    - master
