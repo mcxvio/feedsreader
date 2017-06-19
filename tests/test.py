@@ -1,38 +1,27 @@
-#!/usr/bin/python
-print "Content-type: text/html"
-print
-print "<html><head>"
-print ""
-print "</head><body>"
-print "Test Page"
-print "</body></html>"
+import feedsreader
+import unittest
 
-url = "http://www.dropbox.com/s/yuo52behpqchn39/TechFeedURLs.txt?dl=1"  # dl=1 is important
+class TestStringMethods(unittest.TestCase):
 
-'''
-import ssl
-import urllib.request
-import feedparser
+    def test_upper(self):
+        self.assertEqual('foo'.upper(), 'FOO')
 
-#http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
-ssl._create_default_https_context = ssl._create_unverified_context
+    def test_isupper(self):
+        self.assertTrue('FOO'.isupper())
+        self.assertFalse('Foo'.isupper())
 
-with urllib.request.urlopen(url) as response:
-    html = response.read()
+    def test_split(self):
+        s = 'hello world'
+        self.assertEqual(s.split(), ['hello', 'world'])
+        # check that s.split fails when the separator is not a string
+        with self.assertRaises(TypeError):
+            s.split(2)
 
-for line in html.splitlines():
-    url = line.decode("utf-8")
-    #Get RSS for each URL.
-    d = feedparser.parse(url)
-    #Extract latest story.
-    print(url)
-    print(d.entries[0].title)
-'''
+#    def test_retrieve_document_header_output(self):
+#        with open('../public/blogroll.md', 'w') as output:
+#            result = feedsreader.outputDocumentHeader(file)
+#
+#        self.assertFalse(result, None)
 
-import jinja2
-from jinja2 import Template
-#Send to Jinja temlate for reading.
-template = Template('Hello {{ name }}!')
-print(template.render(name='John Doe'))
-
-print "all good"
+if __name__ == '__main__':
+    unittest.main()
