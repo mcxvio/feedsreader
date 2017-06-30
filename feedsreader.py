@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-
 import datetime
 import ssl
 import urllib.request
 import feedparser
-
 #Extract URLs from public dropbox file.
 feedsUrl = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
 
 def executeFeedReadWrite():
-
     urls = loadFeedsUrls()
     feedsByDate = readFeedsSortByPublishedDate(urls)
 
@@ -71,27 +68,29 @@ def feedTitle(d):
 def readFeedsSortByPublishedDate(urls):
     #List of feed items.
     feedsList = []
-
     for line in urls.splitlines():
-        url = line.decode("utf-8")
-        d = feedparser.parse(url)
-
-        feedsList.append({ "title": feedTitle(d),
-                 "title_link": d.feed.link,
-                 "entry_title": d.entries[0].title.encode('utf-8'),
-                 "entry_link": d.entries[0].link,
-                 "entry_date": feedEntryPublishedDate(d) })
+        d = parseFeedUrl(line)
+        feedsList.append(loadFeedsOutputInfo(d))
 
     #Show feed's newest entry first (https://stackoverflow.com/questions/5055812/sort-python-list-of-objects-by-date).
     return sorted(feedsList, key=lambda k: k['entry_date'], reverse=True)
 
+def parseFeedUrl(line):
+    url = line.decode("utf-8")
+    return feedparser.parse(url)
+
+def loadFeedsOutputInfo(d):
+    return { "title": feedTitle(d),
+             "title_link": d.feed.link,
+             "entry_title": d.entries[0].title.encode('utf-8'),
+             "entry_link": d.entries[0].link,
+             "entry_date": feedEntryPublishedDate(d) }
+
 def loadFeedsUrls():
     #http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
     ssl._create_default_https_context = ssl._create_unverified_context
-
     with urllib.request.urlopen(feedsUrl) as response:
         urls = response.read()
-
     return urls
 
 if __name__ == '__main__':
