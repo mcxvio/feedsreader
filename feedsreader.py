@@ -2,6 +2,7 @@
 import datetime
 import ssl
 import urllib.request
+from urllib.parse import urlparse
 import feedparser
 #Extract URLs from public dropbox file.
 feedsUrl = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
@@ -60,10 +61,16 @@ def feedEntryPublishedDate(d):
         return entryDate
 
 def feedTitle(d):
+    title = ""
     if "title" in d.feed.keys():
-        return d.feed.title
-    else:
-        return d.feed.description
+        title = d.feed.title
+    if "description" in d.feed.keys() and title == "":
+        title = d.feed.description
+    if title == "":
+        #Slice the feed's url if title is empty.
+        o = urlparse(d.feed.link)
+        title = o.netloc
+    return title
 
 def readFeedsSortByPublishedDate(urls):
     #List of feed items.
