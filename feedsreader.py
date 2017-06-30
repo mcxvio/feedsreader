@@ -21,56 +21,12 @@ def executeFeedReadWrite():
         output.write("\n")
         output.write('<p class="footer"><br><br>Page updated: {:%Y-%m-%d %H:%M:%S}</p>'.format(datetime.datetime.now()))
 
-def outputFeedTitleEntry(item, output):
-    output.write("### ")
-    output.write("[" + item['title'] + "]")
-    output.write("(" + item['title_link'] + ")")
-    output.write("\n")
-    output.write("* #### ")
-    output.write("[" + item['entry_title'].decode('utf-8') + "]")
-    output.write("(" + item['entry_link'] + ")")
-    output.write("\n")
-    if item['entry_date'] != "":
-        output.write("<p class='footer'>" + item['entry_date'] + "</p>")
-        output.write("\n")
-        output.write("\n")
-    output.write("\n")
-
-def outputDocumentHeader(output):
-    output.write("Title: Blogroll")
-    output.write("\n")
-    output.write("Category: People, Process, Products")
-    output.write("\n")
-    output.write("Tags: process, products, people, blogroll")
-    output.write("\n")
-    output.write("Slug: blogroll")
-    output.write("\n")
-
-def feedEntryPublishedDate(d):
-    entryDate = ""
-    if "published" in d.entries[0].keys():
-        entryDate = d.entries[0].published_parsed
-    else:
-        if "updated" in d.entries[0].keys():
-            entryDate = d.entries[0].updated_parsed
-
-    if entryDate != "":
-        dt = datetime.datetime(*(entryDate[0:6]))
-        return dt.strftime('%Y-%m-%d %H:%M:%S')
-    else:
-        return entryDate
-
-def feedTitle(d):
-    title = ""
-    if "title" in d.feed.keys():
-        title = d.feed.title
-    if "description" in d.feed.keys() and title == "":
-        title = d.feed.description
-    if title == "":
-        #Slice the feed's url if title is empty.
-        o = urlparse(d.feed.link)
-        title = o.netloc
-    return title
+def loadFeedsUrls():
+    #http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
+    ssl._create_default_https_context = ssl._create_unverified_context
+    with urllib.request.urlopen(feedsUrl) as response:
+        urls = response.read()
+    return urls
 
 def readFeedsSortByPublishedDate(urls):
     #List of feed items.
@@ -93,12 +49,56 @@ def loadFeedsOutputInfo(d):
              "entry_link": d.entries[0].link,
              "entry_date": feedEntryPublishedDate(d) }
 
-def loadFeedsUrls():
-    #http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
-    ssl._create_default_https_context = ssl._create_unverified_context
-    with urllib.request.urlopen(feedsUrl) as response:
-        urls = response.read()
-    return urls
+def feedTitle(d):
+    title = ""
+    if "title" in d.feed.keys():
+        title = d.feed.title
+    if "description" in d.feed.keys() and title == "":
+        title = d.feed.description
+    if title == "":
+        #Slice the feed's url if title is empty.
+        o = urlparse(d.feed.link)
+        title = o.netloc
+    return title
+
+def feedEntryPublishedDate(d):
+    entryDate = ""
+    if "published" in d.entries[0].keys():
+        entryDate = d.entries[0].published_parsed
+    else:
+        if "updated" in d.entries[0].keys():
+            entryDate = d.entries[0].updated_parsed
+
+    if entryDate != "":
+        dt = datetime.datetime(*(entryDate[0:6]))
+        return dt.strftime('%Y-%m-%d %H:%M:%S')
+    else:
+        return entryDate
+
+def outputDocumentHeader(output):
+    output.write("Title: Blogroll")
+    output.write("\n")
+    output.write("Category: People, Process, Products")
+    output.write("\n")
+    output.write("Tags: process, products, people, blogroll")
+    output.write("\n")
+    output.write("Slug: blogroll")
+    output.write("\n")
+
+def outputFeedTitleEntry(item, output):
+    output.write("### ")
+    output.write("[" + item['title'] + "]")
+    output.write("(" + item['title_link'] + ")")
+    output.write("\n")
+    output.write("* #### ")
+    output.write("[" + item['entry_title'].decode('utf-8') + "]")
+    output.write("(" + item['entry_link'] + ")")
+    output.write("\n")
+    if item['entry_date'] != "":
+        output.write("<p class='footer'>" + item['entry_date'] + "</p>")
+        output.write("\n")
+        output.write("\n")
+    output.write("\n")
 
 if __name__ == '__main__':
     print("Working...")
