@@ -1,3 +1,6 @@
+"""
+Load a file of feed urls, fetch feed data and format for output to MarkDown doc.
+"""
 # -*- coding: utf-8 -*-
 import datetime
 import ssl
@@ -5,77 +8,86 @@ import urllib.request
 from urllib.parse import urlparse
 import feedparser
 #Extract URLs from public dropbox file.
-feedsUrl = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
+FEEDS_URL = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
 
-def executeFeedReadWrite():
-    urls = loadFeedsUrls()
-    feedsByDate = readFeedsSortByPublishedDate(urls)
+def execute_feed_read_write():
+    """ Method details here. """
+    urls = load_feeds_urls()
+    feeds_by_date = read_feeds_sort_pub_date(urls)
 
     with open('public/blogroll.md', 'w') as output:
-        outputDocumentHeader(output)
+        output_document_header(output)
         output.write("\n")
 
-        for item in feedsByDate:
-            outputFeedTitleEntry(item, output)
+        for item in feeds_by_date:
+            output_feed_title_entry(item, output)
 
         output.write("\n")
-        output.write('<p class="footer"><br><br>Page updated: {:%Y-%m-%d %H:%M:%S}</p>'.format(datetime.datetime.now()))
+        updated_text = '<p class="footer"><br><br>Page updated: '
+        updated_date = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+        output.write(updated_text + updated_date + '</p>')
 
-def loadFeedsUrls():
-    #http://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
+def load_feeds_urls():
+    """ Method details here. """
+    #//stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
     ssl._create_default_https_context = ssl._create_unverified_context
-    with urllib.request.urlopen(feedsUrl) as response:
+    with urllib.request.urlopen(FEEDS_URL) as response:
         urls = response.read()
     return urls
 
-def readFeedsSortByPublishedDate(urls):
+def read_feeds_sort_pub_date(urls):
+    """ Method details here. """
     #List of feed items.
-    feedsList = []
+    feeds_list = []
     for line in urls.splitlines():
-        d = parseFeedUrl(line)
-        feedsList.append(loadFeedsOutputInfo(d))
+        data = parse_feed_url(line)
+        feeds_list.append(load_feeds_output_info(data))
 
-    #Show feed's newest entry first (https://stackoverflow.com/questions/5055812/sort-python-list-of-objects-by-date).
-    return sorted(feedsList, key=lambda k: k['entry_date'], reverse=True)
+    #Show feed's newest entry first
+    #//stackoverflow.com/questions/5055812/sort-python-list-of-objects-by-date
+    return sorted(feeds_list, key=lambda k: k['entry_date'], reverse=True)
 
-def parseFeedUrl(line):
+def parse_feed_url(line):
+    """ Method details here. """
     url = line.decode("utf-8")
     return feedparser.parse(url)
 
-def loadFeedsOutputInfo(d):
-    return { "title": feedTitle(d),
-             "title_link": d.feed.link,
-             "entry_title": d.entries[0].title.encode('utf-8'),
-             "entry_link": d.entries[0].link,
-             "entry_date": feedEntryPublishedDate(d) }
+def load_feeds_output_info(data):
+    """ Method details here. """
+    return {"title": feed_title(data),
+            "title_link": data.feed.link,
+            "entry_title": data.entries[0].title.encode('utf-8'),
+            "entry_link": data.entries[0].link,
+            "entry_date": feed_entry_published_date(data)}
 
-def feedTitle(d):
+def feed_title(data):
+    """ Method details here. """
     title = ""
-    if "title" in d.feed.keys():
-        title = d.feed.title
-    if "description" in d.feed.keys() and title == "":
-        title = d.feed.description
+    if "title" in data.feed.keys():
+        title = data.feed.title
+    if "description" in data.feed.keys() and title == "":
+        title = data.feed.description
     if title == "":
         #Slice the feed's url if title is empty.
-        o = urlparse(d.feed.link)
-        title = o.netloc
+        output = urlparse(data.feed.link)
+        title = output.netloc
     return title
 
-def feedEntryPublishedDate(d):
-    entryDate = ""
-    if "published" in d.entries[0].keys():
-        entryDate = d.entries[0].published_parsed
+def feed_entry_published_date(data):
+    """ Method details here. """
+    entry_date = ""
+    if "published" in data.entries[0].keys():
+        entry_date = data.entries[0].published_parsed
     else:
-        if "updated" in d.entries[0].keys():
-            entryDate = d.entries[0].updated_parsed
+        if "updated" in data.entries[0].keys():
+            entry_date = data.entries[0].updated_parsed
 
-    if entryDate != "":
-        dt = datetime.datetime(*(entryDate[0:6]))
-        return dt.strftime('%Y-%m-%d %H:%M:%S')
-    else:
-        return entryDate
+    if entry_date != "":
+        date_time = datetime.datetime(*(entry_date[0:6]))
+        return date_time.strftime('%Y-%m-%d %H:%M:%S')
 
-def outputDocumentHeader(output):
+def output_document_header(output):
+    """ Method details here. """
     output.write("Title: Blogroll")
     output.write("\n")
     output.write("Category: People, Process, Products")
@@ -85,7 +97,8 @@ def outputDocumentHeader(output):
     output.write("Slug: blogroll")
     output.write("\n")
 
-def outputFeedTitleEntry(item, output):
+def output_feed_title_entry(item, output):
+    """ Method details here. """
     output.write("### ")
     output.write("[" + item['title'] + "]")
     output.write("(" + item['title_link'] + ")")
@@ -102,5 +115,5 @@ def outputFeedTitleEntry(item, output):
 
 if __name__ == '__main__':
     print("Working...")
-    executeFeedReadWrite()
+    execute_feed_read_write()
     print("...Done")
