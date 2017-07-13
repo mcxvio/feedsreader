@@ -11,7 +11,8 @@ import feedparser
 FEEDS_URL = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
 
 def execute_feed_read_write():
-    """ Method details here. """
+    """ Main controlling function to pull URLs from text file
+        then get latest entry from each the blogs' feeds. """
     urls = load_feeds_urls()
     feeds_by_date = read_feeds_sort_pub_date(urls)
 
@@ -28,7 +29,7 @@ def execute_feed_read_write():
         output.write(updated_text + updated_date + '</p>')
 
 def load_feeds_urls():
-    """ Method details here. """
+    """ Read the feed URLs from the text file. """
     #//stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
     ssl._create_default_https_context = ssl._create_unverified_context
     with urllib.request.urlopen(FEEDS_URL) as response:
@@ -36,7 +37,7 @@ def load_feeds_urls():
     return urls
 
 def read_feeds_sort_pub_date(urls):
-    """ Method details here. """
+    """ Pull latest entry from the feeds in the list, sort by date. """
     #List of feed items.
     feeds_list = []
     for line in urls.splitlines():
@@ -48,12 +49,12 @@ def read_feeds_sort_pub_date(urls):
     return sorted(feeds_list, key=lambda k: k['entry_date'], reverse=True)
 
 def parse_feed_url(line):
-    """ Method details here. """
+    """ Parse each feed URL for content. """
     url = line.decode("utf-8")
     return feedparser.parse(url)
 
 def load_feeds_output_info(data):
-    """ Method details here. """
+    """ Create and return feed information to display. """
     return {"title": feed_title(data),
             "title_link": data.feed.link,
             "entry_title": data.entries[0].title.encode('utf-8'),
@@ -61,7 +62,7 @@ def load_feeds_output_info(data):
             "entry_date": feed_entry_published_date(data)}
 
 def feed_title(data):
-    """ Method details here. """
+    """ Extract feed title. """
     title = ""
     if "title" in data.feed.keys():
         title = data.feed.title
@@ -74,7 +75,7 @@ def feed_title(data):
     return title
 
 def feed_entry_published_date(data):
-    """ Method details here. """
+    """ Extract feed's last entry date. """
     entry_date = ""
     if "published" in data.entries[0].keys():
         entry_date = data.entries[0].published_parsed
@@ -82,12 +83,14 @@ def feed_entry_published_date(data):
         if "updated" in data.entries[0].keys():
             entry_date = data.entries[0].updated_parsed
 
-    if entry_date != "":
+    date_time = datetime.datetime.now()
+    if entry_date != "" and entry_date is not None:
         date_time = datetime.datetime(*(entry_date[0:6]))
-        return date_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    return date_time.strftime('%Y-%m-%d %H:%M:%S')
 
 def output_document_header(output):
-    """ Method details here. """
+    """ Write out header information for MarkDown document. """
     output.write("Title: Blogroll")
     output.write("\n")
     output.write("Category: People, Process, Products")
@@ -98,7 +101,7 @@ def output_document_header(output):
     output.write("\n")
 
 def output_feed_title_entry(item, output):
-    """ Method details here. """
+    """ Write out entry information to the MarkDown document. """
     output.write("### ")
     output.write("[" + item['title'] + "]")
     output.write("(" + item['title_link'] + ")")
