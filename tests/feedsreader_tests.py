@@ -31,14 +31,14 @@ class TestFeedsReader(unittest.TestCase):
 
     def test_urls_file_exists(self):
         """
-        Test the feedsreader module.
+        Test the file, which contains the urls, exists.
         """
         url = urllib.request.urlopen(feedsreader.FEEDS_URL)
         self.assertTrue(url.getcode() == 200)
 
     def test_load_feeds_urls_get_feed(self):
         """
-        Test the feedsreader module.
+        Test loading and parsing the feed from the first url in the file.
         """
         urls = feedsreader.load_feeds_urls()
         self.assertTrue(len(urls) > 1)
@@ -56,7 +56,7 @@ class TestFeedsReader(unittest.TestCase):
 
     def test_feed_entries_date_sort(self):
         """
-        Test the feedsreader module.
+        Test sorting the feeds by entry date.
         """
         urls = feedsreader.load_feeds_urls()
         self.assertTrue(len(urls) > 1)
@@ -68,7 +68,7 @@ class TestFeedsReader(unittest.TestCase):
 
     def test_retrieve_header_output(self):
         """
-        Test the feedsreader module.
+        Test writing to an output file.
         """
         # Create a file in the temporary directory to test output methods.
         with open(path.join(self.test_dir, 'test.txt'), 'w') as test_file:
