@@ -10,6 +10,11 @@ By default URLs are loaded from a file in this github repo, update FEEDS_URL to 
 python feedsreader.py
 ```
 
+## Run as flask app.
+```
+python app.py
+```
+
 ## Run in docker.
 ```
 docker-compose up
