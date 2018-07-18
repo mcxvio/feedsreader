@@ -7,8 +7,8 @@ import ssl
 import urllib.request
 from urllib.parse import urlparse
 import feedparser
-#Extract URLs from public dropbox file.
-FEEDS_URL = "http://mcxvio.gitlab.io/feeds/urls.txt"  # dl=1 is important
+#Extract URLs from public url.
+FEEDS_URL = "http://github.com/mcxvio/static/urls.txt"  # dl=1 is important
 
 def execute_feed_read_write():
     """ Main controlling function to pull URLs from text file
@@ -16,7 +16,9 @@ def execute_feed_read_write():
     urls = load_feeds_urls()
     feeds_by_date = read_feeds_sort_pub_date(urls)
 
-    with open('public/blogroll.md', 'w') as output:
+    print("Working...")
+
+    with open('static/blogroll.md', 'w') as output:
         output_document_header(output)
         output.write("\n")
 
@@ -27,6 +29,8 @@ def execute_feed_read_write():
         updated_text = '<p class="footer"><br><br>Page updated: '
         updated_date = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
         output.write(updated_text + updated_date + '</p>')
+    
+    print("...Done")
 
 def load_feeds_urls():
     """ Read the feed URLs from the text file. """
@@ -116,6 +120,7 @@ def output_feed_title_entry(item, output):
         output.write("\n")
     output.write("\n")
 
+# Run stand-alone.
 if __name__ == '__main__':
     print("Working...")
     execute_feed_read_write()
