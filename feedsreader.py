@@ -8,15 +8,16 @@ import urllib.request
 from urllib.parse import urlparse
 import feedparser
 #Extract URLs from public url.
-FEEDS_URL = "http://github.com/mcxvio/static/urls.txt"  # dl=1 is important
+FEEDS_URL = "https://raw.githubusercontent.com/mcxvio/feedsreader/master/static/urls.txt"  # dl=1 is important
 
 def execute_feed_read_write():
     """ Main controlling function to pull URLs from text file
         then get latest entry from each the blogs' feeds. """
-    urls = load_feeds_urls()
-    feeds_by_date = read_feeds_sort_pub_date(urls)
 
     print("Working...")
+
+    urls = load_feeds_urls()
+    feeds_by_date = read_feeds_sort_pub_date(urls)
 
     with open('static/blogroll.md', 'w') as output:
         output_document_header(output)

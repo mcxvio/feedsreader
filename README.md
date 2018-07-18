@@ -1,8 +1,16 @@
 # Simple feedsreader, output to markdown page.
 
-> Outputs a markdown page of latest articles, compiled from a simple text file of rss/atom URLs.
+Outputs a markdown page of latest articles, compiled from a simple text file of rss/atom URLs.
 
-## Running feedsreader locally.
+## Getting started.
+By default URLs are loaded from a file in this github repo, update FEEDS_URL to your own list of feeds.
+
+## Run locally.
 ```
 python feedsreader.py
+```
+
+## Run in docker.
+```
+docker-compose up
 ```
