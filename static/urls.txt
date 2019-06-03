@@ -1,10 +1,4 @@
-http://feeds.feedburner.com/AyendeRahien
 http://feeds.hanselman.com/ScottHanselman
-http://www.codeproject.com/WebServices/ArticleRSS.aspx
-https://medium.mybridge.co/feed
-https://weblogs.asp.net/scottgu/rss?containerid=13
 https://kenschwaber.wordpress.com/?feed=rss
-https://feeds.feedburner.com/codinghorror
 https://www.dataquest.io/blog/feed.xml
 https://martinfowler.com/feed.atom
-http://www.enterpriseintegrationpatterns.com/ramblings.rss
